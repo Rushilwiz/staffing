@@ -6,6 +6,6 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
 	plugins: [sveltekit(), tailwindcss(), Icons({ compiler: 'svelte' })],
 	server: {
-		allowedHosts: true
-	}
+		allowedHosts: true,
+	},
 });
