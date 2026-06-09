@@ -78,6 +78,7 @@ export const FirefighterScalarFieldEnum = {
   rank: 'rank',
   qualifications: 'qualifications',
   isActive: 'isActive',
+  isCover: 'isCover',
   createdAt: 'createdAt'
 } as const
 
@@ -99,10 +100,9 @@ export const AvailabilityScalarFieldEnum = {
   firefighterId: 'firefighterId',
   shiftId: 'shiftId',
   status: 'status',
-  coverFirefighterId: 'coverFirefighterId',
-  coverRank: 'coverRank',
-  coverQualifications: 'coverQualifications',
+  coversForId: 'coversForId',
   trainingSuggestion: 'trainingSuggestion',
+  shiftNotes: 'shiftNotes',
   submittedAt: 'submittedAt'
 } as const
 

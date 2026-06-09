@@ -1,83 +1,87 @@
 generator client {
-    provider     = "prisma-client"
-    output       = "../src/lib/generated/prisma"
-    moduleFormat = "esm"
+  provider     = "prisma-client"
+  output       = "../src/lib/generated/prisma"
+  moduleFormat = "esm"
 }
 
 datasource db {
-    provider = "postgresql"
+  provider = "postgresql"
 }
 
 enum AvailabilityStatus {
-    IN      @map("in")
-    OUT     @map("out")
-    PENDING @map("pending")
+  IN      @map("in")
+  OUT     @map("out")
+  PENDING @map("")
 }
 
 enum ShiftType {
-    HR12 @map("12hr")
-    HR24 @map("24hr")
-    HR48 @map("48hr")
+  HR12 @map("12hr")
+  HR24 @map("24hr")
+  HR48 @map("48hr")
 }
 
 enum Qualifications {
-    EMT @map("EMT")
-    C89 @map("C89")
-    B85 @map("B85")
-    DPO @map("DPO")
-    DAO @map("DAO")
+  EMT @map("EMT")
+  C89 @map("C89")
+  B85 @map("B85")
+  DPO @map("DPO")
+  DAO @map("DAO")
 }
 
 enum FirefighterRank {
-    DOT        @map("DOT")
-    ROOKIE     @map("Rookie")
-    RELEASED   @map("Released")
-    SENIOR     @map("Senior")
-    MASTER     @map("Master")
-    LIEUTENANT @map("Lieutenant")
-    CAPTAIN    @map("Captain")
+  DOT        @map("DOT")
+  ROOKIE     @map("Rookie")
+  RELEASED   @map("Released")
+  SENIOR     @map("Senior")
+  MASTER     @map("Master")
+  LIEUTENANT @map("Lieutenant")
+  CAPTAIN    @map("Captain")
 }
 
 model Firefighter {
-    id             Int              @id @default(autoincrement())
-    name           String
-    rank           FirefighterRank
-    qualifications Qualifications[] @default([])
+  id             Int              @id @default(autoincrement())
+  name           String
+  rank           FirefighterRank
+  qualifications Qualifications[] @default([])
 
-    isActive  Boolean  @default(true) @map("is_active")
-    createdAt DateTime @default(now()) @map("created_at")
+  isActive  Boolean  @default(true) @map("is_active")
+  isCover   Boolean  @default(false) @map("is_cover")
+  createdAt DateTime @default(now()) @map("created_at")
 
-    availability Availability[]
+  availability Availability[]
 
-    @@map("firefighters")
+  @@map("firefighters")
 }
 
 model Shift {
-    id        Int       @id @default(autoincrement())
-    shiftDate DateTime  @map("shift_date") @db.Date
-    shiftType ShiftType @map("shift_type")
-    createdAt DateTime  @default(now())
+  id        Int       @id @default(autoincrement())
+  shiftDate DateTime  @map("shift_date") @db.Date
+  shiftType ShiftType @map("shift_type")
+  createdAt DateTime  @default(now())
 
-    availability Availability[]
+  availability Availability[]
 
-    @@unique([shiftDate, shiftType])
-    @@map("shifts")
+  @@unique([shiftDate, shiftType])
+  @@map("shifts")
 }
 
 model Availability {
-    id                  String             @id @default(uuid())
-    firefighterId       Int                @map("firefighter_id")
-    shiftId             Int                @map("shift_id")
-    status              AvailabilityStatus @default(PENDING)
-    
-    coverFirefighterId  String?            @map("cover_firefighter_id")
-    coverRank           String?            @map("cover_rank")
-    coverQualifications Qualifications[]   @map("cover_qualifications")
-    trainingSuggestion  String?            @map("training_suggestion")
-    submittedAt         DateTime           @default(now()) @map("submitted_at")
+  id            String             @id @default(uuid())
+  firefighterId Int                @map("firefighter_id")
+  shiftId       Int                @map("shift_id")
+  status        AvailabilityStatus @default(PENDING)
 
-    firefighter Firefighter @relation(fields: [firefighterId], references: [id], onDelete: Cascade)
-    shift       Shift       @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+  coversForId        String?  @unique @map("covers_for_id")
+  trainingSuggestion String?  @map("training_suggestion")
+  shiftNotes         String?  @map("shift_notes")
+  submittedAt        DateTime @default(now()) @map("submitted_at")
 
-    @@map("availability")
+  firefighter Firefighter @relation(fields: [firefighterId], references: [id], onDelete: Cascade)
+  shift       Shift       @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+
+  // A cover row (status IN, firefighter.isCover) points at the absence it fills.
+  coversFor Availability? @relation("ShiftCover", fields: [coversForId], references: [id], onDelete: SetNull)
+  coveredBy Availability? @relation("ShiftCover")
+
+  @@map("availability")
 }

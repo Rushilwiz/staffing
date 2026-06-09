@@ -39,6 +39,7 @@ export type FirefighterMinAggregateOutputType = {
   name: string | null
   rank: $Enums.FirefighterRank | null
   isActive: boolean | null
+  isCover: boolean | null
   createdAt: Date | null
 }
 
@@ -47,6 +48,7 @@ export type FirefighterMaxAggregateOutputType = {
   name: string | null
   rank: $Enums.FirefighterRank | null
   isActive: boolean | null
+  isCover: boolean | null
   createdAt: Date | null
 }
 
@@ -56,6 +58,7 @@ export type FirefighterCountAggregateOutputType = {
   rank: number
   qualifications: number
   isActive: number
+  isCover: number
   createdAt: number
   _all: number
 }
@@ -74,6 +77,7 @@ export type FirefighterMinAggregateInputType = {
   name?: true
   rank?: true
   isActive?: true
+  isCover?: true
   createdAt?: true
 }
 
@@ -82,6 +86,7 @@ export type FirefighterMaxAggregateInputType = {
   name?: true
   rank?: true
   isActive?: true
+  isCover?: true
   createdAt?: true
 }
 
@@ -91,6 +96,7 @@ export type FirefighterCountAggregateInputType = {
   rank?: true
   qualifications?: true
   isActive?: true
+  isCover?: true
   createdAt?: true
   _all?: true
 }
@@ -187,6 +193,7 @@ export type FirefighterGroupByOutputType = {
   rank: $Enums.FirefighterRank
   qualifications: $Enums.Qualifications[]
   isActive: boolean
+  isCover: boolean
   createdAt: Date
   _count: FirefighterCountAggregateOutputType | null
   _avg: FirefighterAvgAggregateOutputType | null
@@ -219,6 +226,7 @@ export type FirefighterWhereInput = {
   rank?: Prisma.EnumFirefighterRankFilter<"Firefighter"> | $Enums.FirefighterRank
   qualifications?: Prisma.EnumQualificationsNullableListFilter<"Firefighter">
   isActive?: Prisma.BoolFilter<"Firefighter"> | boolean
+  isCover?: Prisma.BoolFilter<"Firefighter"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Firefighter"> | Date | string
   availability?: Prisma.AvailabilityListRelationFilter
 }
@@ -229,6 +237,7 @@ export type FirefighterOrderByWithRelationInput = {
   rank?: Prisma.SortOrder
   qualifications?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCover?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   availability?: Prisma.AvailabilityOrderByRelationAggregateInput
 }
@@ -242,6 +251,7 @@ export type FirefighterWhereUniqueInput = Prisma.AtLeast<{
   rank?: Prisma.EnumFirefighterRankFilter<"Firefighter"> | $Enums.FirefighterRank
   qualifications?: Prisma.EnumQualificationsNullableListFilter<"Firefighter">
   isActive?: Prisma.BoolFilter<"Firefighter"> | boolean
+  isCover?: Prisma.BoolFilter<"Firefighter"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Firefighter"> | Date | string
   availability?: Prisma.AvailabilityListRelationFilter
 }, "id">
@@ -252,6 +262,7 @@ export type FirefighterOrderByWithAggregationInput = {
   rank?: Prisma.SortOrder
   qualifications?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCover?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.FirefighterCountOrderByAggregateInput
   _avg?: Prisma.FirefighterAvgOrderByAggregateInput
@@ -269,6 +280,7 @@ export type FirefighterScalarWhereWithAggregatesInput = {
   rank?: Prisma.EnumFirefighterRankWithAggregatesFilter<"Firefighter"> | $Enums.FirefighterRank
   qualifications?: Prisma.EnumQualificationsNullableListFilter<"Firefighter">
   isActive?: Prisma.BoolWithAggregatesFilter<"Firefighter"> | boolean
+  isCover?: Prisma.BoolWithAggregatesFilter<"Firefighter"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Firefighter"> | Date | string
 }
 
@@ -277,6 +289,7 @@ export type FirefighterCreateInput = {
   rank: $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterCreatequalificationsInput | $Enums.Qualifications[]
   isActive?: boolean
+  isCover?: boolean
   createdAt?: Date | string
   availability?: Prisma.AvailabilityCreateNestedManyWithoutFirefighterInput
 }
@@ -287,6 +300,7 @@ export type FirefighterUncheckedCreateInput = {
   rank: $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterCreatequalificationsInput | $Enums.Qualifications[]
   isActive?: boolean
+  isCover?: boolean
   createdAt?: Date | string
   availability?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutFirefighterInput
 }
@@ -296,6 +310,7 @@ export type FirefighterUpdateInput = {
   rank?: Prisma.EnumFirefighterRankFieldUpdateOperationsInput | $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterUpdatequalificationsInput | $Enums.Qualifications[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCover?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availability?: Prisma.AvailabilityUpdateManyWithoutFirefighterNestedInput
 }
@@ -306,6 +321,7 @@ export type FirefighterUncheckedUpdateInput = {
   rank?: Prisma.EnumFirefighterRankFieldUpdateOperationsInput | $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterUpdatequalificationsInput | $Enums.Qualifications[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCover?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availability?: Prisma.AvailabilityUncheckedUpdateManyWithoutFirefighterNestedInput
 }
@@ -316,6 +332,7 @@ export type FirefighterCreateManyInput = {
   rank: $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterCreatequalificationsInput | $Enums.Qualifications[]
   isActive?: boolean
+  isCover?: boolean
   createdAt?: Date | string
 }
 
@@ -324,6 +341,7 @@ export type FirefighterUpdateManyMutationInput = {
   rank?: Prisma.EnumFirefighterRankFieldUpdateOperationsInput | $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterUpdatequalificationsInput | $Enums.Qualifications[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCover?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -333,6 +351,7 @@ export type FirefighterUncheckedUpdateManyInput = {
   rank?: Prisma.EnumFirefighterRankFieldUpdateOperationsInput | $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterUpdatequalificationsInput | $Enums.Qualifications[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCover?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -350,6 +369,7 @@ export type FirefighterCountOrderByAggregateInput = {
   rank?: Prisma.SortOrder
   qualifications?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCover?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -362,6 +382,7 @@ export type FirefighterMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCover?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -370,6 +391,7 @@ export type FirefighterMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCover?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -434,6 +456,7 @@ export type FirefighterCreateWithoutAvailabilityInput = {
   rank: $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterCreatequalificationsInput | $Enums.Qualifications[]
   isActive?: boolean
+  isCover?: boolean
   createdAt?: Date | string
 }
 
@@ -443,6 +466,7 @@ export type FirefighterUncheckedCreateWithoutAvailabilityInput = {
   rank: $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterCreatequalificationsInput | $Enums.Qualifications[]
   isActive?: boolean
+  isCover?: boolean
   createdAt?: Date | string
 }
 
@@ -467,6 +491,7 @@ export type FirefighterUpdateWithoutAvailabilityInput = {
   rank?: Prisma.EnumFirefighterRankFieldUpdateOperationsInput | $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterUpdatequalificationsInput | $Enums.Qualifications[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCover?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -476,6 +501,7 @@ export type FirefighterUncheckedUpdateWithoutAvailabilityInput = {
   rank?: Prisma.EnumFirefighterRankFieldUpdateOperationsInput | $Enums.FirefighterRank
   qualifications?: Prisma.FirefighterUpdatequalificationsInput | $Enums.Qualifications[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCover?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -516,6 +542,7 @@ export type FirefighterSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   rank?: boolean
   qualifications?: boolean
   isActive?: boolean
+  isCover?: boolean
   createdAt?: boolean
   availability?: boolean | Prisma.Firefighter$availabilityArgs<ExtArgs>
   _count?: boolean | Prisma.FirefighterCountOutputTypeDefaultArgs<ExtArgs>
@@ -527,6 +554,7 @@ export type FirefighterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   rank?: boolean
   qualifications?: boolean
   isActive?: boolean
+  isCover?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["firefighter"]>
 
@@ -536,6 +564,7 @@ export type FirefighterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   rank?: boolean
   qualifications?: boolean
   isActive?: boolean
+  isCover?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["firefighter"]>
 
@@ -545,10 +574,11 @@ export type FirefighterSelectScalar = {
   rank?: boolean
   qualifications?: boolean
   isActive?: boolean
+  isCover?: boolean
   createdAt?: boolean
 }
 
-export type FirefighterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "rank" | "qualifications" | "isActive" | "createdAt", ExtArgs["result"]["firefighter"]>
+export type FirefighterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "rank" | "qualifications" | "isActive" | "isCover" | "createdAt", ExtArgs["result"]["firefighter"]>
 export type FirefighterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   availability?: boolean | Prisma.Firefighter$availabilityArgs<ExtArgs>
   _count?: boolean | Prisma.FirefighterCountOutputTypeDefaultArgs<ExtArgs>
@@ -567,6 +597,7 @@ export type $FirefighterPayload<ExtArgs extends runtime.Types.Extensions.Interna
     rank: $Enums.FirefighterRank
     qualifications: $Enums.Qualifications[]
     isActive: boolean
+    isCover: boolean
     createdAt: Date
   }, ExtArgs["result"]["firefighter"]>
   composites: {}
@@ -997,6 +1028,7 @@ export interface FirefighterFieldRefs {
   readonly rank: Prisma.FieldRef<"Firefighter", 'FirefighterRank'>
   readonly qualifications: Prisma.FieldRef<"Firefighter", 'Qualifications[]'>
   readonly isActive: Prisma.FieldRef<"Firefighter", 'Boolean'>
+  readonly isCover: Prisma.FieldRef<"Firefighter", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Firefighter", 'DateTime'>
 }
     

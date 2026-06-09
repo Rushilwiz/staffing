@@ -3,12 +3,14 @@
 	import { slide } from 'svelte/transition';
 	import MaterialSymbolsChevronRight from '~icons/material-symbols/chevron-right';
 	import MaterialSymbolsChevronLeft from '~icons/material-symbols/chevron-left';
-
+	import MaterialSymbolsExpandMore from '~icons/material-symbols/expand-more';
 	import { AvailabilityStatus, FirefighterRank, ShiftType } from '$lib/generated/prisma/enums';
 	import { formatFirefighterName, rankStyleAttr } from '$lib/firefighter-display';
-	import type { PageProps } from './$types';
 
+	import type { PageProps } from './$types';
 	let { data }: PageProps = $props();
+
+	// CALENDAR
 
 	let selectedIndex = $state(0);
 	let name = $state('');
@@ -17,13 +19,13 @@
 	const shiftTypeLabel: Record<ShiftType, string> = {
 		[ShiftType.HR12]: '12HR',
 		[ShiftType.HR24]: '24HR',
-		[ShiftType.HR48]: '48HR'
+		[ShiftType.HR48]: '48HR',
 	};
 
 	const shiftSpanDays: Record<ShiftType, number> = {
 		[ShiftType.HR12]: 1,
 		[ShiftType.HR24]: 2,
-		[ShiftType.HR48]: 3
+		[ShiftType.HR48]: 3,
 	};
 
 	const selectedShift = $derived(data.shifts[selectedIndex]);
@@ -43,9 +45,7 @@
 	});
 
 	const minDate = $derived(data.shifts.length > 0 ? data.shifts[0].date : '');
-	const maxDate = $derived(
-		data.shifts.length > 0 ? data.shifts[data.shifts.length - 1].date : ''
-	);
+	const maxDate = $derived(data.shifts.length > 0 ? data.shifts[data.shifts.length - 1].date : '');
 
 	function toYmd(date: Date): string {
 		return date.toISOString().slice(0, 10);
@@ -72,11 +72,6 @@
 		if (selectedIndex < data.shifts.length - 1) selectedIndex += 1;
 	}
 
-	function selectFirefighter(ffName: string): void {
-		name = ffName;
-		(document.getElementById('name-popover') as HTMLElement | null)?.hidePopover();
-	}
-
 	function attachCalendar(allowed: Map<string, number>) {
 		return (element: Element) => {
 			const el = element as Element & {
@@ -95,7 +90,10 @@
 					const value = el.value;
 					if (!value) return;
 					const idx = allowed.get(value);
-					if (idx !== undefined) selectedIndex = idx;
+					if (idx !== undefined) {
+						selectedIndex = idx;
+						(document.getElementById('cally-popover') as HTMLElement | null)?.hidePopover();
+					}
 				};
 				element.addEventListener('change', onChange);
 			});
@@ -106,6 +104,22 @@
 			};
 		};
 	}
+
+	// FF SELECT
+	import { Combobox } from 'melt/builders';
+
+	const combobox = new Combobox<string>({
+		value: () => name,
+		onValueChange: (v) => (name = v ?? ''),
+	});
+
+	const filtered = $derived.by(() => {
+		if (!combobox.touched) return data.firefighters;
+		const query = combobox.inputValue.trim().toLowerCase();
+		return data.firefighters.filter((ff) => ff.name.toLowerCase().includes(query));
+	});
+
+	// COVER
 
 	const coverMailtoHref = $derived.by(() => {
 		if (!selectedShift) return '#';
@@ -124,7 +138,7 @@
 </svelte:head>
 
 <div class="flex h-full items-center justify-center">
-	<div class="flex max-w-2xl min-w-1/2 flex-col p-4">
+	<div class="flex w-full max-w-2xl flex-col p-4 sm:w-auto sm:min-w-1/2">
 		{#if data.shifts.length === 0}
 			<div class="rounded-lg bg-base-200 p-6 text-center">
 				<h2 class="text-m">no upcoming shifts</h2>
@@ -149,7 +163,7 @@
 						<button
 							type="button"
 							popovertarget="cally-popover"
-							class="input input-border flex-1 text-center"
+							class="input-border input flex-1 text-center"
 							id="cally-trigger"
 							style="anchor-name: --cally"
 						>
@@ -159,7 +173,7 @@
 						<div
 							popover
 							id="cally-popover"
-							class="dropdown bg-base-100 rounded-box shadow-lg"
+							class="dropdown rounded-box bg-base-100 shadow-lg"
 							style="position-anchor: --cally"
 						>
 							<calendar-date
@@ -167,6 +181,7 @@
 								value={selectedShift.date}
 								min={minDate}
 								max={maxDate}
+								firstDayOfWeek={0}
 								{@attach attachCalendar(dateToShiftIndex)}
 							>
 								<span slot="previous" aria-label="previous">
@@ -217,36 +232,39 @@
 					</div>
 				</div>
 				<div class="m-4">
-					<input type="hidden" name="name" value={name} required />
-					<button
-						type="button"
-						popovertarget="name-popover"
-						class="input input-bordered w-full text-center"
-						style={`anchor-name: --name-select;${
-							selectedFirefighter ? ' ' + rankStyleAttr(selectedFirefighter.rank) : ''
-						}`}
-					>
-						{name ? formatFirefighterName(name) : 'select your name'}
-					</button>
-					<ul
-						popover
-						id="name-popover"
-						class="dropdown menu bg-base-100 rounded-box max-h-80 overflow-y-auto p-2 shadow-lg"
-						style="position-anchor: --name-select; width: anchor-size(width);"
-					>
-						{#each data.firefighters as ff (ff.id)}
-							<li>
-								<button
-									type="button"
-									class="justify-center"
-									style={rankStyleAttr(ff.rank)}
-									onclick={() => selectFirefighter(ff.name)}
-								>
-									{formatFirefighterName(ff.name)}
-								</button>
-							</li>
+					<div class="relative">
+						<input
+							name="name"
+							class="w-full rounded border border-gray-300 p-2 pr-10"
+							autocorrect="off"
+							placeholder="Select your name"
+							{...combobox.input}
+							value={name}
+							style="{combobox.input.style}; {selectedFirefighter
+								? rankStyleAttr(selectedFirefighter.rank)
+								: ''}"
+						/>
+						<MaterialSymbolsExpandMore
+							class="pointer-events-none absolute top-1/2 right-3 size-5 -translate-y-1/2 opacity-70"
+						/>
+					</div>
+
+					<div class="" {...combobox.content}>
+						{#each filtered as ff (ff.id)}
+							<div
+								class=" px-3 py-1.5 whitespace-normal transition-colors duration-200 ease-out hover:cursor-pointer"
+								style={rankStyleAttr(ff.rank)}
+								{...combobox.getOption(ff.name)}
+							>
+								{formatFirefighterName(ff.name)}
+								{#if combobox.isSelected(ff.name)}
+									✓
+								{/if}
+							</div>
+						{:else}
+							<span>No results found</span>
 						{/each}
-					</ul>
+					</div>
 				</div>
 				{#if name}
 					<div class="m-4" transition:slide|global>
@@ -280,8 +298,7 @@
 							<div class="flex items-center justify-between">
 								<h2 class="">cover?</h2>
 								<a href={coverMailtoHref}>
-									<button type="button" class="btn px-4 btn-soft btn-primary"
-										>generate email</button
+									<button type="button" class="btn px-4 btn-soft btn-primary">generate email</button
 									>
 								</a>
 							</div>
@@ -314,6 +331,13 @@
 							</div>
 						</div>
 					{/if}
+					<div class="m-4" transition:slide|global>
+						<textarea
+							name="shiftNotes"
+							class="textarea-bordered textarea h-16 w-full"
+							placeholder="shift notes? (optional)"
+						></textarea>
+					</div>
 					<div class="m-4" transition:slide|global>
 						<textarea
 							name="trainingSuggestion"

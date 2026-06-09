@@ -8,23 +8,23 @@ export const load: PageServerLoad = async () => {
 	const [shiftsRaw, firefightersRaw] = await Promise.all([
 		prisma.shift.findMany({
 			where: { shiftDate: { gte: todayUtc } },
-			orderBy: { shiftDate: 'asc' }
+			orderBy: { shiftDate: 'asc' },
 		}),
 		prisma.firefighter.findMany({
-			where: { isActive: true },
+			where: { isActive: true, isCover: false },
 			orderBy: { name: 'asc' },
-			select: { id: true, name: true, rank: true }
-		})
+			select: { id: true, name: true, rank: true },
+		}),
 	]);
 
 	const shifts = shiftsRaw.map((s) => ({
 		id: s.id,
 		date: s.shiftDate.toISOString().slice(0, 10),
-		type: s.shiftType
+		type: s.shiftType,
 	}));
 
 	return {
 		shifts,
-		firefighters: firefightersRaw
+		firefighters: firefightersRaw,
 	};
 };

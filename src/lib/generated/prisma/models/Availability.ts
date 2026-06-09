@@ -41,9 +41,9 @@ export type AvailabilityMinAggregateOutputType = {
   firefighterId: number | null
   shiftId: number | null
   status: $Enums.AvailabilityStatus | null
-  coverFirefighterId: string | null
-  coverRank: string | null
+  coversForId: string | null
   trainingSuggestion: string | null
+  shiftNotes: string | null
   submittedAt: Date | null
 }
 
@@ -52,9 +52,9 @@ export type AvailabilityMaxAggregateOutputType = {
   firefighterId: number | null
   shiftId: number | null
   status: $Enums.AvailabilityStatus | null
-  coverFirefighterId: string | null
-  coverRank: string | null
+  coversForId: string | null
   trainingSuggestion: string | null
+  shiftNotes: string | null
   submittedAt: Date | null
 }
 
@@ -63,10 +63,9 @@ export type AvailabilityCountAggregateOutputType = {
   firefighterId: number
   shiftId: number
   status: number
-  coverFirefighterId: number
-  coverRank: number
-  coverQualifications: number
+  coversForId: number
   trainingSuggestion: number
+  shiftNotes: number
   submittedAt: number
   _all: number
 }
@@ -87,9 +86,9 @@ export type AvailabilityMinAggregateInputType = {
   firefighterId?: true
   shiftId?: true
   status?: true
-  coverFirefighterId?: true
-  coverRank?: true
+  coversForId?: true
   trainingSuggestion?: true
+  shiftNotes?: true
   submittedAt?: true
 }
 
@@ -98,9 +97,9 @@ export type AvailabilityMaxAggregateInputType = {
   firefighterId?: true
   shiftId?: true
   status?: true
-  coverFirefighterId?: true
-  coverRank?: true
+  coversForId?: true
   trainingSuggestion?: true
+  shiftNotes?: true
   submittedAt?: true
 }
 
@@ -109,10 +108,9 @@ export type AvailabilityCountAggregateInputType = {
   firefighterId?: true
   shiftId?: true
   status?: true
-  coverFirefighterId?: true
-  coverRank?: true
-  coverQualifications?: true
+  coversForId?: true
   trainingSuggestion?: true
+  shiftNotes?: true
   submittedAt?: true
   _all?: true
 }
@@ -208,10 +206,9 @@ export type AvailabilityGroupByOutputType = {
   firefighterId: number
   shiftId: number
   status: $Enums.AvailabilityStatus
-  coverFirefighterId: string | null
-  coverRank: string | null
-  coverQualifications: $Enums.Qualifications[]
+  coversForId: string | null
   trainingSuggestion: string | null
+  shiftNotes: string | null
   submittedAt: Date
   _count: AvailabilityCountAggregateOutputType | null
   _avg: AvailabilityAvgAggregateOutputType | null
@@ -243,13 +240,14 @@ export type AvailabilityWhereInput = {
   firefighterId?: Prisma.IntFilter<"Availability"> | number
   shiftId?: Prisma.IntFilter<"Availability"> | number
   status?: Prisma.EnumAvailabilityStatusFilter<"Availability"> | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.StringNullableFilter<"Availability"> | string | null
-  coverRank?: Prisma.StringNullableFilter<"Availability"> | string | null
-  coverQualifications?: Prisma.EnumQualificationsNullableListFilter<"Availability">
+  coversForId?: Prisma.StringNullableFilter<"Availability"> | string | null
   trainingSuggestion?: Prisma.StringNullableFilter<"Availability"> | string | null
+  shiftNotes?: Prisma.StringNullableFilter<"Availability"> | string | null
   submittedAt?: Prisma.DateTimeFilter<"Availability"> | Date | string
   firefighter?: Prisma.XOR<Prisma.FirefighterScalarRelationFilter, Prisma.FirefighterWhereInput>
   shift?: Prisma.XOR<Prisma.ShiftScalarRelationFilter, Prisma.ShiftWhereInput>
+  coversFor?: Prisma.XOR<Prisma.AvailabilityNullableScalarRelationFilter, Prisma.AvailabilityWhereInput> | null
+  coveredBy?: Prisma.XOR<Prisma.AvailabilityNullableScalarRelationFilter, Prisma.AvailabilityWhereInput> | null
 }
 
 export type AvailabilityOrderByWithRelationInput = {
@@ -257,41 +255,42 @@ export type AvailabilityOrderByWithRelationInput = {
   firefighterId?: Prisma.SortOrder
   shiftId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  coverFirefighterId?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverRank?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverQualifications?: Prisma.SortOrder
+  coversForId?: Prisma.SortOrderInput | Prisma.SortOrder
   trainingSuggestion?: Prisma.SortOrderInput | Prisma.SortOrder
+  shiftNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   firefighter?: Prisma.FirefighterOrderByWithRelationInput
   shift?: Prisma.ShiftOrderByWithRelationInput
+  coversFor?: Prisma.AvailabilityOrderByWithRelationInput
+  coveredBy?: Prisma.AvailabilityOrderByWithRelationInput
 }
 
 export type AvailabilityWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  coversForId?: string
   AND?: Prisma.AvailabilityWhereInput | Prisma.AvailabilityWhereInput[]
   OR?: Prisma.AvailabilityWhereInput[]
   NOT?: Prisma.AvailabilityWhereInput | Prisma.AvailabilityWhereInput[]
   firefighterId?: Prisma.IntFilter<"Availability"> | number
   shiftId?: Prisma.IntFilter<"Availability"> | number
   status?: Prisma.EnumAvailabilityStatusFilter<"Availability"> | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.StringNullableFilter<"Availability"> | string | null
-  coverRank?: Prisma.StringNullableFilter<"Availability"> | string | null
-  coverQualifications?: Prisma.EnumQualificationsNullableListFilter<"Availability">
   trainingSuggestion?: Prisma.StringNullableFilter<"Availability"> | string | null
+  shiftNotes?: Prisma.StringNullableFilter<"Availability"> | string | null
   submittedAt?: Prisma.DateTimeFilter<"Availability"> | Date | string
   firefighter?: Prisma.XOR<Prisma.FirefighterScalarRelationFilter, Prisma.FirefighterWhereInput>
   shift?: Prisma.XOR<Prisma.ShiftScalarRelationFilter, Prisma.ShiftWhereInput>
-}, "id">
+  coversFor?: Prisma.XOR<Prisma.AvailabilityNullableScalarRelationFilter, Prisma.AvailabilityWhereInput> | null
+  coveredBy?: Prisma.XOR<Prisma.AvailabilityNullableScalarRelationFilter, Prisma.AvailabilityWhereInput> | null
+}, "id" | "coversForId">
 
 export type AvailabilityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   firefighterId?: Prisma.SortOrder
   shiftId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  coverFirefighterId?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverRank?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverQualifications?: Prisma.SortOrder
+  coversForId?: Prisma.SortOrderInput | Prisma.SortOrder
   trainingSuggestion?: Prisma.SortOrderInput | Prisma.SortOrder
+  shiftNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   _count?: Prisma.AvailabilityCountOrderByAggregateInput
   _avg?: Prisma.AvailabilityAvgOrderByAggregateInput
@@ -308,23 +307,22 @@ export type AvailabilityScalarWhereWithAggregatesInput = {
   firefighterId?: Prisma.IntWithAggregatesFilter<"Availability"> | number
   shiftId?: Prisma.IntWithAggregatesFilter<"Availability"> | number
   status?: Prisma.EnumAvailabilityStatusWithAggregatesFilter<"Availability"> | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.StringNullableWithAggregatesFilter<"Availability"> | string | null
-  coverRank?: Prisma.StringNullableWithAggregatesFilter<"Availability"> | string | null
-  coverQualifications?: Prisma.EnumQualificationsNullableListFilter<"Availability">
+  coversForId?: Prisma.StringNullableWithAggregatesFilter<"Availability"> | string | null
   trainingSuggestion?: Prisma.StringNullableWithAggregatesFilter<"Availability"> | string | null
+  shiftNotes?: Prisma.StringNullableWithAggregatesFilter<"Availability"> | string | null
   submittedAt?: Prisma.DateTimeWithAggregatesFilter<"Availability"> | Date | string
 }
 
 export type AvailabilityCreateInput = {
   id?: string
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
   firefighter: Prisma.FirefighterCreateNestedOneWithoutAvailabilityInput
   shift: Prisma.ShiftCreateNestedOneWithoutAvailabilityInput
+  coversFor?: Prisma.AvailabilityCreateNestedOneWithoutCoveredByInput
+  coveredBy?: Prisma.AvailabilityCreateNestedOneWithoutCoversForInput
 }
 
 export type AvailabilityUncheckedCreateInput = {
@@ -332,23 +330,23 @@ export type AvailabilityUncheckedCreateInput = {
   firefighterId: number
   shiftId: number
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: string | null
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedCreateNestedOneWithoutCoversForInput
 }
 
 export type AvailabilityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   firefighter?: Prisma.FirefighterUpdateOneRequiredWithoutAvailabilityNestedInput
   shift?: Prisma.ShiftUpdateOneRequiredWithoutAvailabilityNestedInput
+  coversFor?: Prisma.AvailabilityUpdateOneWithoutCoveredByNestedInput
+  coveredBy?: Prisma.AvailabilityUpdateOneWithoutCoversForNestedInput
 }
 
 export type AvailabilityUncheckedUpdateInput = {
@@ -356,11 +354,11 @@ export type AvailabilityUncheckedUpdateInput = {
   firefighterId?: Prisma.IntFieldUpdateOperationsInput | number
   shiftId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedUpdateOneWithoutCoversForNestedInput
 }
 
 export type AvailabilityCreateManyInput = {
@@ -368,20 +366,17 @@ export type AvailabilityCreateManyInput = {
   firefighterId: number
   shiftId: number
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: string | null
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
 }
 
 export type AvailabilityUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -390,10 +385,9 @@ export type AvailabilityUncheckedUpdateManyInput = {
   firefighterId?: Prisma.IntFieldUpdateOperationsInput | number
   shiftId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -407,15 +401,19 @@ export type AvailabilityOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type AvailabilityNullableScalarRelationFilter = {
+  is?: Prisma.AvailabilityWhereInput | null
+  isNot?: Prisma.AvailabilityWhereInput | null
+}
+
 export type AvailabilityCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   firefighterId?: Prisma.SortOrder
   shiftId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  coverFirefighterId?: Prisma.SortOrder
-  coverRank?: Prisma.SortOrder
-  coverQualifications?: Prisma.SortOrder
+  coversForId?: Prisma.SortOrder
   trainingSuggestion?: Prisma.SortOrder
+  shiftNotes?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
 }
 
@@ -429,9 +427,9 @@ export type AvailabilityMaxOrderByAggregateInput = {
   firefighterId?: Prisma.SortOrder
   shiftId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  coverFirefighterId?: Prisma.SortOrder
-  coverRank?: Prisma.SortOrder
+  coversForId?: Prisma.SortOrder
   trainingSuggestion?: Prisma.SortOrder
+  shiftNotes?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
 }
 
@@ -440,9 +438,9 @@ export type AvailabilityMinOrderByAggregateInput = {
   firefighterId?: Prisma.SortOrder
   shiftId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  coverFirefighterId?: Prisma.SortOrder
-  coverRank?: Prisma.SortOrder
+  coversForId?: Prisma.SortOrder
   trainingSuggestion?: Prisma.SortOrder
+  shiftNotes?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
 }
 
@@ -535,8 +533,22 @@ export type AvailabilityUncheckedUpdateManyWithoutShiftNestedInput = {
   deleteMany?: Prisma.AvailabilityScalarWhereInput | Prisma.AvailabilityScalarWhereInput[]
 }
 
-export type AvailabilityCreatecoverQualificationsInput = {
-  set: $Enums.Qualifications[]
+export type AvailabilityCreateNestedOneWithoutCoveredByInput = {
+  create?: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoveredByInput, Prisma.AvailabilityUncheckedCreateWithoutCoveredByInput>
+  connectOrCreate?: Prisma.AvailabilityCreateOrConnectWithoutCoveredByInput
+  connect?: Prisma.AvailabilityWhereUniqueInput
+}
+
+export type AvailabilityCreateNestedOneWithoutCoversForInput = {
+  create?: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoversForInput, Prisma.AvailabilityUncheckedCreateWithoutCoversForInput>
+  connectOrCreate?: Prisma.AvailabilityCreateOrConnectWithoutCoversForInput
+  connect?: Prisma.AvailabilityWhereUniqueInput
+}
+
+export type AvailabilityUncheckedCreateNestedOneWithoutCoversForInput = {
+  create?: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoversForInput, Prisma.AvailabilityUncheckedCreateWithoutCoversForInput>
+  connectOrCreate?: Prisma.AvailabilityCreateOrConnectWithoutCoversForInput
+  connect?: Prisma.AvailabilityWhereUniqueInput
 }
 
 export type EnumAvailabilityStatusFieldUpdateOperationsInput = {
@@ -547,31 +559,56 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type AvailabilityUpdatecoverQualificationsInput = {
-  set?: $Enums.Qualifications[]
-  push?: $Enums.Qualifications | $Enums.Qualifications[]
+export type AvailabilityUpdateOneWithoutCoveredByNestedInput = {
+  create?: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoveredByInput, Prisma.AvailabilityUncheckedCreateWithoutCoveredByInput>
+  connectOrCreate?: Prisma.AvailabilityCreateOrConnectWithoutCoveredByInput
+  upsert?: Prisma.AvailabilityUpsertWithoutCoveredByInput
+  disconnect?: Prisma.AvailabilityWhereInput | boolean
+  delete?: Prisma.AvailabilityWhereInput | boolean
+  connect?: Prisma.AvailabilityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AvailabilityUpdateToOneWithWhereWithoutCoveredByInput, Prisma.AvailabilityUpdateWithoutCoveredByInput>, Prisma.AvailabilityUncheckedUpdateWithoutCoveredByInput>
+}
+
+export type AvailabilityUpdateOneWithoutCoversForNestedInput = {
+  create?: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoversForInput, Prisma.AvailabilityUncheckedCreateWithoutCoversForInput>
+  connectOrCreate?: Prisma.AvailabilityCreateOrConnectWithoutCoversForInput
+  upsert?: Prisma.AvailabilityUpsertWithoutCoversForInput
+  disconnect?: Prisma.AvailabilityWhereInput | boolean
+  delete?: Prisma.AvailabilityWhereInput | boolean
+  connect?: Prisma.AvailabilityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AvailabilityUpdateToOneWithWhereWithoutCoversForInput, Prisma.AvailabilityUpdateWithoutCoversForInput>, Prisma.AvailabilityUncheckedUpdateWithoutCoversForInput>
+}
+
+export type AvailabilityUncheckedUpdateOneWithoutCoversForNestedInput = {
+  create?: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoversForInput, Prisma.AvailabilityUncheckedCreateWithoutCoversForInput>
+  connectOrCreate?: Prisma.AvailabilityCreateOrConnectWithoutCoversForInput
+  upsert?: Prisma.AvailabilityUpsertWithoutCoversForInput
+  disconnect?: Prisma.AvailabilityWhereInput | boolean
+  delete?: Prisma.AvailabilityWhereInput | boolean
+  connect?: Prisma.AvailabilityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AvailabilityUpdateToOneWithWhereWithoutCoversForInput, Prisma.AvailabilityUpdateWithoutCoversForInput>, Prisma.AvailabilityUncheckedUpdateWithoutCoversForInput>
 }
 
 export type AvailabilityCreateWithoutFirefighterInput = {
   id?: string
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
   shift: Prisma.ShiftCreateNestedOneWithoutAvailabilityInput
+  coversFor?: Prisma.AvailabilityCreateNestedOneWithoutCoveredByInput
+  coveredBy?: Prisma.AvailabilityCreateNestedOneWithoutCoversForInput
 }
 
 export type AvailabilityUncheckedCreateWithoutFirefighterInput = {
   id?: string
   shiftId: number
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: string | null
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedCreateNestedOneWithoutCoversForInput
 }
 
 export type AvailabilityCreateOrConnectWithoutFirefighterInput = {
@@ -608,33 +645,32 @@ export type AvailabilityScalarWhereInput = {
   firefighterId?: Prisma.IntFilter<"Availability"> | number
   shiftId?: Prisma.IntFilter<"Availability"> | number
   status?: Prisma.EnumAvailabilityStatusFilter<"Availability"> | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.StringNullableFilter<"Availability"> | string | null
-  coverRank?: Prisma.StringNullableFilter<"Availability"> | string | null
-  coverQualifications?: Prisma.EnumQualificationsNullableListFilter<"Availability">
+  coversForId?: Prisma.StringNullableFilter<"Availability"> | string | null
   trainingSuggestion?: Prisma.StringNullableFilter<"Availability"> | string | null
+  shiftNotes?: Prisma.StringNullableFilter<"Availability"> | string | null
   submittedAt?: Prisma.DateTimeFilter<"Availability"> | Date | string
 }
 
 export type AvailabilityCreateWithoutShiftInput = {
   id?: string
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
   firefighter: Prisma.FirefighterCreateNestedOneWithoutAvailabilityInput
+  coversFor?: Prisma.AvailabilityCreateNestedOneWithoutCoveredByInput
+  coveredBy?: Prisma.AvailabilityCreateNestedOneWithoutCoversForInput
 }
 
 export type AvailabilityUncheckedCreateWithoutShiftInput = {
   id?: string
   firefighterId: number
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: string | null
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedCreateNestedOneWithoutCoversForInput
 }
 
 export type AvailabilityCreateOrConnectWithoutShiftInput = {
@@ -663,47 +699,165 @@ export type AvailabilityUpdateManyWithWhereWithoutShiftInput = {
   data: Prisma.XOR<Prisma.AvailabilityUpdateManyMutationInput, Prisma.AvailabilityUncheckedUpdateManyWithoutShiftInput>
 }
 
+export type AvailabilityCreateWithoutCoveredByInput = {
+  id?: string
+  status?: $Enums.AvailabilityStatus
+  trainingSuggestion?: string | null
+  shiftNotes?: string | null
+  submittedAt?: Date | string
+  firefighter: Prisma.FirefighterCreateNestedOneWithoutAvailabilityInput
+  shift: Prisma.ShiftCreateNestedOneWithoutAvailabilityInput
+  coversFor?: Prisma.AvailabilityCreateNestedOneWithoutCoveredByInput
+}
+
+export type AvailabilityUncheckedCreateWithoutCoveredByInput = {
+  id?: string
+  firefighterId: number
+  shiftId: number
+  status?: $Enums.AvailabilityStatus
+  coversForId?: string | null
+  trainingSuggestion?: string | null
+  shiftNotes?: string | null
+  submittedAt?: Date | string
+}
+
+export type AvailabilityCreateOrConnectWithoutCoveredByInput = {
+  where: Prisma.AvailabilityWhereUniqueInput
+  create: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoveredByInput, Prisma.AvailabilityUncheckedCreateWithoutCoveredByInput>
+}
+
+export type AvailabilityCreateWithoutCoversForInput = {
+  id?: string
+  status?: $Enums.AvailabilityStatus
+  trainingSuggestion?: string | null
+  shiftNotes?: string | null
+  submittedAt?: Date | string
+  firefighter: Prisma.FirefighterCreateNestedOneWithoutAvailabilityInput
+  shift: Prisma.ShiftCreateNestedOneWithoutAvailabilityInput
+  coveredBy?: Prisma.AvailabilityCreateNestedOneWithoutCoversForInput
+}
+
+export type AvailabilityUncheckedCreateWithoutCoversForInput = {
+  id?: string
+  firefighterId: number
+  shiftId: number
+  status?: $Enums.AvailabilityStatus
+  trainingSuggestion?: string | null
+  shiftNotes?: string | null
+  submittedAt?: Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedCreateNestedOneWithoutCoversForInput
+}
+
+export type AvailabilityCreateOrConnectWithoutCoversForInput = {
+  where: Prisma.AvailabilityWhereUniqueInput
+  create: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoversForInput, Prisma.AvailabilityUncheckedCreateWithoutCoversForInput>
+}
+
+export type AvailabilityUpsertWithoutCoveredByInput = {
+  update: Prisma.XOR<Prisma.AvailabilityUpdateWithoutCoveredByInput, Prisma.AvailabilityUncheckedUpdateWithoutCoveredByInput>
+  create: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoveredByInput, Prisma.AvailabilityUncheckedCreateWithoutCoveredByInput>
+  where?: Prisma.AvailabilityWhereInput
+}
+
+export type AvailabilityUpdateToOneWithWhereWithoutCoveredByInput = {
+  where?: Prisma.AvailabilityWhereInput
+  data: Prisma.XOR<Prisma.AvailabilityUpdateWithoutCoveredByInput, Prisma.AvailabilityUncheckedUpdateWithoutCoveredByInput>
+}
+
+export type AvailabilityUpdateWithoutCoveredByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
+  trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  firefighter?: Prisma.FirefighterUpdateOneRequiredWithoutAvailabilityNestedInput
+  shift?: Prisma.ShiftUpdateOneRequiredWithoutAvailabilityNestedInput
+  coversFor?: Prisma.AvailabilityUpdateOneWithoutCoveredByNestedInput
+}
+
+export type AvailabilityUncheckedUpdateWithoutCoveredByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firefighterId?: Prisma.IntFieldUpdateOperationsInput | number
+  shiftId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AvailabilityUpsertWithoutCoversForInput = {
+  update: Prisma.XOR<Prisma.AvailabilityUpdateWithoutCoversForInput, Prisma.AvailabilityUncheckedUpdateWithoutCoversForInput>
+  create: Prisma.XOR<Prisma.AvailabilityCreateWithoutCoversForInput, Prisma.AvailabilityUncheckedCreateWithoutCoversForInput>
+  where?: Prisma.AvailabilityWhereInput
+}
+
+export type AvailabilityUpdateToOneWithWhereWithoutCoversForInput = {
+  where?: Prisma.AvailabilityWhereInput
+  data: Prisma.XOR<Prisma.AvailabilityUpdateWithoutCoversForInput, Prisma.AvailabilityUncheckedUpdateWithoutCoversForInput>
+}
+
+export type AvailabilityUpdateWithoutCoversForInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
+  trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  firefighter?: Prisma.FirefighterUpdateOneRequiredWithoutAvailabilityNestedInput
+  shift?: Prisma.ShiftUpdateOneRequiredWithoutAvailabilityNestedInput
+  coveredBy?: Prisma.AvailabilityUpdateOneWithoutCoversForNestedInput
+}
+
+export type AvailabilityUncheckedUpdateWithoutCoversForInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firefighterId?: Prisma.IntFieldUpdateOperationsInput | number
+  shiftId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
+  trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedUpdateOneWithoutCoversForNestedInput
+}
+
 export type AvailabilityCreateManyFirefighterInput = {
   id?: string
   shiftId: number
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: string | null
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
 }
 
 export type AvailabilityUpdateWithoutFirefighterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shift?: Prisma.ShiftUpdateOneRequiredWithoutAvailabilityNestedInput
+  coversFor?: Prisma.AvailabilityUpdateOneWithoutCoveredByNestedInput
+  coveredBy?: Prisma.AvailabilityUpdateOneWithoutCoversForNestedInput
 }
 
 export type AvailabilityUncheckedUpdateWithoutFirefighterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedUpdateOneWithoutCoversForNestedInput
 }
 
 export type AvailabilityUncheckedUpdateManyWithoutFirefighterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   shiftId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -711,43 +865,41 @@ export type AvailabilityCreateManyShiftInput = {
   id?: string
   firefighterId: number
   status?: $Enums.AvailabilityStatus
-  coverFirefighterId?: string | null
-  coverRank?: string | null
-  coverQualifications?: Prisma.AvailabilityCreatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: string | null
   trainingSuggestion?: string | null
+  shiftNotes?: string | null
   submittedAt?: Date | string
 }
 
 export type AvailabilityUpdateWithoutShiftInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   firefighter?: Prisma.FirefighterUpdateOneRequiredWithoutAvailabilityNestedInput
+  coversFor?: Prisma.AvailabilityUpdateOneWithoutCoveredByNestedInput
+  coveredBy?: Prisma.AvailabilityUpdateOneWithoutCoversForNestedInput
 }
 
 export type AvailabilityUncheckedUpdateWithoutShiftInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   firefighterId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  coveredBy?: Prisma.AvailabilityUncheckedUpdateOneWithoutCoversForNestedInput
 }
 
 export type AvailabilityUncheckedUpdateManyWithoutShiftInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   firefighterId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAvailabilityStatusFieldUpdateOperationsInput | $Enums.AvailabilityStatus
-  coverFirefighterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverRank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverQualifications?: Prisma.AvailabilityUpdatecoverQualificationsInput | $Enums.Qualifications[]
+  coversForId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trainingSuggestion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shiftNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -758,13 +910,14 @@ export type AvailabilitySelect<ExtArgs extends runtime.Types.Extensions.Internal
   firefighterId?: boolean
   shiftId?: boolean
   status?: boolean
-  coverFirefighterId?: boolean
-  coverRank?: boolean
-  coverQualifications?: boolean
+  coversForId?: boolean
   trainingSuggestion?: boolean
+  shiftNotes?: boolean
   submittedAt?: boolean
   firefighter?: boolean | Prisma.FirefighterDefaultArgs<ExtArgs>
   shift?: boolean | Prisma.ShiftDefaultArgs<ExtArgs>
+  coversFor?: boolean | Prisma.Availability$coversForArgs<ExtArgs>
+  coveredBy?: boolean | Prisma.Availability$coveredByArgs<ExtArgs>
 }, ExtArgs["result"]["availability"]>
 
 export type AvailabilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -772,13 +925,13 @@ export type AvailabilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   firefighterId?: boolean
   shiftId?: boolean
   status?: boolean
-  coverFirefighterId?: boolean
-  coverRank?: boolean
-  coverQualifications?: boolean
+  coversForId?: boolean
   trainingSuggestion?: boolean
+  shiftNotes?: boolean
   submittedAt?: boolean
   firefighter?: boolean | Prisma.FirefighterDefaultArgs<ExtArgs>
   shift?: boolean | Prisma.ShiftDefaultArgs<ExtArgs>
+  coversFor?: boolean | Prisma.Availability$coversForArgs<ExtArgs>
 }, ExtArgs["result"]["availability"]>
 
 export type AvailabilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -786,13 +939,13 @@ export type AvailabilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   firefighterId?: boolean
   shiftId?: boolean
   status?: boolean
-  coverFirefighterId?: boolean
-  coverRank?: boolean
-  coverQualifications?: boolean
+  coversForId?: boolean
   trainingSuggestion?: boolean
+  shiftNotes?: boolean
   submittedAt?: boolean
   firefighter?: boolean | Prisma.FirefighterDefaultArgs<ExtArgs>
   shift?: boolean | Prisma.ShiftDefaultArgs<ExtArgs>
+  coversFor?: boolean | Prisma.Availability$coversForArgs<ExtArgs>
 }, ExtArgs["result"]["availability"]>
 
 export type AvailabilitySelectScalar = {
@@ -800,25 +953,28 @@ export type AvailabilitySelectScalar = {
   firefighterId?: boolean
   shiftId?: boolean
   status?: boolean
-  coverFirefighterId?: boolean
-  coverRank?: boolean
-  coverQualifications?: boolean
+  coversForId?: boolean
   trainingSuggestion?: boolean
+  shiftNotes?: boolean
   submittedAt?: boolean
 }
 
-export type AvailabilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firefighterId" | "shiftId" | "status" | "coverFirefighterId" | "coverRank" | "coverQualifications" | "trainingSuggestion" | "submittedAt", ExtArgs["result"]["availability"]>
+export type AvailabilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firefighterId" | "shiftId" | "status" | "coversForId" | "trainingSuggestion" | "shiftNotes" | "submittedAt", ExtArgs["result"]["availability"]>
 export type AvailabilityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   firefighter?: boolean | Prisma.FirefighterDefaultArgs<ExtArgs>
   shift?: boolean | Prisma.ShiftDefaultArgs<ExtArgs>
+  coversFor?: boolean | Prisma.Availability$coversForArgs<ExtArgs>
+  coveredBy?: boolean | Prisma.Availability$coveredByArgs<ExtArgs>
 }
 export type AvailabilityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   firefighter?: boolean | Prisma.FirefighterDefaultArgs<ExtArgs>
   shift?: boolean | Prisma.ShiftDefaultArgs<ExtArgs>
+  coversFor?: boolean | Prisma.Availability$coversForArgs<ExtArgs>
 }
 export type AvailabilityIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   firefighter?: boolean | Prisma.FirefighterDefaultArgs<ExtArgs>
   shift?: boolean | Prisma.ShiftDefaultArgs<ExtArgs>
+  coversFor?: boolean | Prisma.Availability$coversForArgs<ExtArgs>
 }
 
 export type $AvailabilityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -826,16 +982,17 @@ export type $AvailabilityPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     firefighter: Prisma.$FirefighterPayload<ExtArgs>
     shift: Prisma.$ShiftPayload<ExtArgs>
+    coversFor: Prisma.$AvailabilityPayload<ExtArgs> | null
+    coveredBy: Prisma.$AvailabilityPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     firefighterId: number
     shiftId: number
     status: $Enums.AvailabilityStatus
-    coverFirefighterId: string | null
-    coverRank: string | null
-    coverQualifications: $Enums.Qualifications[]
+    coversForId: string | null
     trainingSuggestion: string | null
+    shiftNotes: string | null
     submittedAt: Date
   }, ExtArgs["result"]["availability"]>
   composites: {}
@@ -1233,6 +1390,8 @@ export interface Prisma__AvailabilityClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   firefighter<T extends Prisma.FirefighterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FirefighterDefaultArgs<ExtArgs>>): Prisma.Prisma__FirefighterClient<runtime.Types.Result.GetResult<Prisma.$FirefighterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   shift<T extends Prisma.ShiftDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShiftDefaultArgs<ExtArgs>>): Prisma.Prisma__ShiftClient<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  coversFor<T extends Prisma.Availability$coversForArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Availability$coversForArgs<ExtArgs>>): Prisma.Prisma__AvailabilityClient<runtime.Types.Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  coveredBy<T extends Prisma.Availability$coveredByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Availability$coveredByArgs<ExtArgs>>): Prisma.Prisma__AvailabilityClient<runtime.Types.Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1266,10 +1425,9 @@ export interface AvailabilityFieldRefs {
   readonly firefighterId: Prisma.FieldRef<"Availability", 'Int'>
   readonly shiftId: Prisma.FieldRef<"Availability", 'Int'>
   readonly status: Prisma.FieldRef<"Availability", 'AvailabilityStatus'>
-  readonly coverFirefighterId: Prisma.FieldRef<"Availability", 'String'>
-  readonly coverRank: Prisma.FieldRef<"Availability", 'String'>
-  readonly coverQualifications: Prisma.FieldRef<"Availability", 'Qualifications[]'>
+  readonly coversForId: Prisma.FieldRef<"Availability", 'String'>
   readonly trainingSuggestion: Prisma.FieldRef<"Availability", 'String'>
+  readonly shiftNotes: Prisma.FieldRef<"Availability", 'String'>
   readonly submittedAt: Prisma.FieldRef<"Availability", 'DateTime'>
 }
     
@@ -1669,6 +1827,44 @@ export type AvailabilityDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Availabilities to delete.
    */
   limit?: number
+}
+
+/**
+ * Availability.coversFor
+ */
+export type Availability$coversForArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Availability
+   */
+  select?: Prisma.AvailabilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Availability
+   */
+  omit?: Prisma.AvailabilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AvailabilityInclude<ExtArgs> | null
+  where?: Prisma.AvailabilityWhereInput
+}
+
+/**
+ * Availability.coveredBy
+ */
+export type Availability$coveredByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Availability
+   */
+  select?: Prisma.AvailabilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Availability
+   */
+  omit?: Prisma.AvailabilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AvailabilityInclude<ExtArgs> | null
+  where?: Prisma.AvailabilityWhereInput
 }
 
 /**
